@@ -10,11 +10,11 @@ import http from 'http';
 
 import expressConfig from './config/express';
 import registerRoutes from './routes';
-import seedDatabaseIfNeeded from './config/seed';
+// import seedDatabaseIfNeeded from './config/seed';
 
 
 // Connect to MongoDB
-const mongooseConnectionPromise = mongoose.connect(config.mongo.uri, config.mongo.options);
+mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', function(err) {
     console.error(`MongoDB connection error: ${err}`);
     process.exit(-1); // eslint-disable-line no-process-exit
