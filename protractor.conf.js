@@ -47,7 +47,7 @@ var config = {
   //
   // See the full list at https://github.com/jasmine/jasmine-npm
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000,
+    defaultTimeoutInterval: 3000,
     print: function() {}  // for jasmine-spec-reporter
   },
 

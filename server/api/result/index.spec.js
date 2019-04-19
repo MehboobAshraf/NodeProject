@@ -34,7 +34,7 @@ describe('Result API Router:', function() {
     resultIndex.should.equal(routerStub);
   });
 
-  describe('GET /(api/result/)', function() {
+  describe('GET /api/result/', function() {
     it('should route to result.controller.index', function() {
       routerStub.get
         .withArgs('/', 'resultCtrl.index')
@@ -42,7 +42,7 @@ describe('Result API Router:', function() {
     });
   });
 
-  describe('GET /(api/result/)/:id', function() {
+  describe('GET /api/result/:id', function() {
     it('should route to result.controller.show', function() {
       routerStub.get
         .withArgs('/:id', 'resultCtrl.show')
@@ -50,7 +50,7 @@ describe('Result API Router:', function() {
     });
   });
 
-  describe('POST /(api/result/)', function() {
+  describe('POST /api/result/', function() {
     it('should route to result.controller.create', function() {
       routerStub.post
         .withArgs('/', 'resultCtrl.create')
@@ -58,7 +58,7 @@ describe('Result API Router:', function() {
     });
   });
 
-  describe('PUT /(api/result/)/:id', function() {
+  describe('PUT /api/result/:id', function() {
     it('should route to result.controller.upsert', function() {
       routerStub.put
         .withArgs('/:id', 'resultCtrl.upsert')
@@ -66,7 +66,7 @@ describe('Result API Router:', function() {
     });
   });
 
-  describe('PATCH /(api/result/)/:id', function() {
+  describe('PATCH /api/result/:id', function() {
     it('should route to result.controller.patch', function() {
       routerStub.patch
         .withArgs('/:id', 'resultCtrl.patch')
@@ -74,7 +74,7 @@ describe('Result API Router:', function() {
     });
   });
 
-  describe('DELETE /(api/result/)/:id', function() {
+  describe('DELETE /api/result/:id', function() {
     it('should route to result.controller.destroy', function() {
       routerStub.delete
         .withArgs('/:id', 'resultCtrl.destroy')

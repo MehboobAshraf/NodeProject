@@ -19,10 +19,10 @@ var all = {
     root: path.normalize(`${__dirname}/../../..`),
 
     // dev client port
-    clientPort: process.env.CLIENT_PORT || 3000,
+    clientPort: process.env.CLIENT_PORT || 4000,
 
     // Server port
-    port: process.env.PORT || 9000,
+    port: process.env.PORT || 3000,
 
     // Server IP
     ip: process.env.IP || '0.0.0.0',

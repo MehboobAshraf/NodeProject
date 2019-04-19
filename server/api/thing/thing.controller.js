@@ -68,6 +68,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Things
 export function index(req, res) {
+    console.log('I am called')
     // res.json({ message: 'hooray! welcome to our api!' });
     return sessionsModel.find({}).exec()
     .then(respondWithResult(res))
