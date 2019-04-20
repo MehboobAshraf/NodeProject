@@ -11,6 +11,7 @@
 import { applyPatch } from 'fast-json-patch';
 import Users from './users.model';
 var _ = require('lodash');
+import jwt from 'jsonwebtoken';
 var Q = require('q');
 var bcrypt = require('bcryptjs');
 
@@ -116,7 +117,6 @@ export function destroy(req, res) {
 }
 
 export function create(req, res) {
-    console.log('user', req.body.params)
     var deferred = Q.defer();
     // validation
     Users.findOne(
@@ -126,25 +126,49 @@ export function create(req, res) {
 
             if (user) {
                 // username already exists
-                deferred.reject('Username "' + req.body.name + '" is already taken');
+                deferred.reject('Username "' + req.body.email + '" is already taken');
             } else {
                 createUser(req.body.params);
             }
         });
 
     function createUser(userParam) {
-        // set user object to userParam without the cleartext password
-        // var user = _.omit(userParam, 'password');
-        // add hashed password to user object
-        // user.hash = bcrypt.hashSync(userParam.password, 10);
+    console.log('user', req.body.params)
 
-        Users.create(
-            userParam,
+        // set user object to userParam without the cleartext password
+        var user = _.omit(userParam, 'password');
+        // add hashed password to user object
+        user.hash = bcrypt.hashSync(userParam.password, 10);
+        console.log('user: ' ,user)
+         Users.create(
+            user,
             function (err, doc) {
                 if (err) deferred.reject(err.name + ': ' + err.message);                
                 deferred.resolve();
-            });
-    }
+                return res.status(200).json({message:'user registered successfully'})
+            })
 
-    return deferred.promise;
+    }
+}
+export function login(req, res) {
+    var deferred = Q.defer();
+    Users.findOne({ email: req.body.params.email }, function (err, user) {
+        if (user && bcrypt.compareSync(req.body.params.password, user.hash)) {
+            // authentication successful
+            //  deferred.resolve({
+            //     _id: user._id,
+            //     email: user.email,
+            //     name: user.name,
+            //     token: jwt.sign({ sub: user._id }, config.secret),
+            // });
+            var token = jwt.sign({ _id: user._id }, "config.secrets.session", {
+                expiresIn: 60 * 60 * 5
+            });
+            return res.status(200).json({token})
+        } else {
+            // authentication failed
+            deferred.resolve();
+        }
+    });
+    // return res.status(200).message({message: deferred.promise});
 }
