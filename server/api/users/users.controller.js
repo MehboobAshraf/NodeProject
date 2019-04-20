@@ -123,7 +123,6 @@ export function create(req, res) {
         { email: req.body.params.email },
         function (err, user) {
             if (err) deferred.reject(err.name + ': ' + err.message);
-
             if (user) {
                 // username already exists
                 deferred.reject('Username "' + req.body.email + '" is already taken');
@@ -133,42 +132,30 @@ export function create(req, res) {
         });
 
     function createUser(userParam) {
-    console.log('user', req.body.params)
-
         // set user object to userParam without the cleartext password
         var user = _.omit(userParam, 'password');
         // add hashed password to user object
         user.hash = bcrypt.hashSync(userParam.password, 10);
-        console.log('user: ' ,user)
-         Users.create(
-            user,
-            function (err, doc) {
-                if (err) deferred.reject(err.name + ': ' + err.message);                
-                deferred.resolve();
-                return res.status(200).json({message:'user registered successfully'})
-            })
-
+        Users.create(
+        user,
+        function (err, doc) {
+            if (err) deferred.reject(err.name + ': ' + err.message);                
+            return res.status(200).json({message:'user registered successfully'})
+        })
     }
 }
 export function login(req, res) {
     var deferred = Q.defer();
     Users.findOne({ email: req.body.params.email }, function (err, user) {
         if (user && bcrypt.compareSync(req.body.params.password, user.hash)) {
-            // authentication successful
-            //  deferred.resolve({
-            //     _id: user._id,
-            //     email: user.email,
-            //     name: user.name,
-            //     token: jwt.sign({ sub: user._id }, config.secret),
-            // });
             var token = jwt.sign({ _id: user._id }, "config.secrets.session", {
                 expiresIn: 60 * 60 * 5
             });
             return res.status(200).json({token})
-        } else {
+        } else if(user && !bcrypt.compareSync(req.body.params.password, user.hash)){
             // authentication failed
-            deferred.resolve();
-        }
+            return res.status(500).json({message: 'Your Password is incorrect'})
+        } else return res.status(500).json({err: 'Your Email is incorrect'})
     });
     // return res.status(200).message({message: deferred.promise});
 }
