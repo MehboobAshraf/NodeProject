@@ -145,7 +145,6 @@ export function create(req, res) {
     }
 }
 export function login(req, res) {
-    var deferred = Q.defer();
     Users.findOne({ email: req.body.params.email }, function (err, user) {
         if (user && bcrypt.compareSync(req.body.params.password, user.hash)) {
             var token = jwt.sign({ _id: user._id }, "config.secrets.session", {
