@@ -11,7 +11,7 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  password: String
+  hash: String
 });
 
 registerEvents(userSchema);
