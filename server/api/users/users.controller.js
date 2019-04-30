@@ -66,7 +66,10 @@ function handleError(res, statusCode) {
 // Gets a list of Userss
 export function index(req, res) {
     console.log('user called')
-    return Users.find().exec()
+    return Users.find()
+        // .exec()
+        .sort({ email: 1})
+        .select(['name', 'email'])
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

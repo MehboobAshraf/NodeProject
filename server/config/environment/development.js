@@ -6,7 +6,8 @@ module.exports = {
     // MongoDB connection options
     mongo: {
         useMongoClient: true,
-        uri: process.env.MONGODB_URI || 'mongodb://localhost/fullstack-dev'
+        uri:  'mongodb://test:test@ds061681.mlab.com:61681/dummies'
+        // local uri `process.env.MONGODB_URI ||`
     },
 
     // Seed database on startup

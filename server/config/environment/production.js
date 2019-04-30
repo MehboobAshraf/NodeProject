@@ -16,9 +16,9 @@ module.exports = {
     // MongoDB connection options
     mongo: {
         useMongoClient: true,
-        uri: process.env.MONGODB_URI
-            || process.env.MONGOHQ_URL
-            || process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME
-            || 'mongodb://localhost/fullstack-dev'
+        uri: 
+            // || process.env.MONGOHQ_URL
+            // || process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME
+            'mongodb://test:test@ds061681.mlab.com:61681/dummies'
     }
 };
